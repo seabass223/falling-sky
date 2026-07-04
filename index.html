@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Falling Sky: a NASA meteorite landing archive visualized as an anime-cyberpunk 3D impact atlas." />
+    <title>Falling Sky · NASA Meteorite Impact Atlas</title>
+    <link rel="stylesheet" href="./src/styles.css?v=mobile-canvas-fix-20260703" />
+  </head>
+  <body>
+    <div class="grain-space"></div>
+    <div class="scanlines"></div>
+    <div class="poster-rails" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+    <header class="hero image-hero" aria-label="Falling Sky meteorite archive poster">
+      <img src="./assets/falling-sky-header.png?v=image-header-20260703" alt="Falling Sky meteorite archive poster with neon meteorite impact art and NASA terminal copy." />
+    </header>
+
+    <main>
+      <section class="stats-grid" id="stats"></section>
+
+      <section class="panel atlas-panel poster-card">
+        <div class="panel-head">
+          <div>
+            <p class="kicker">3D IMPACT ATLAS</p>
+            <h2>Click an object. Interrogate the sky.</h2>
+          </div>
+          <div class="controls">
+            <button class="filter active" data-filter="all">All geocoded</button>
+            <button class="filter" data-filter="fell">Witnessed falls</button>
+            <button class="filter" data-filter="found">Found later</button>
+            <button class="filter" data-filter="heavy">Heavy visitors</button>
+            <button class="filter" data-filter="us">U.S. state mode</button>
+          </div>
+        </div>
+        <div class="atlas-layout">
+          <div class="scene-wrap">
+            <div class="vertical-label">宇宙落下物</div>
+            <div id="scene" aria-label="Interactive 3D globe of meteorite landings"></div>
+          </div>
+          <aside class="dossier" id="dossier">
+            <p class="kicker">SELECTED OBJECT</p>
+            <h3 id="objectName">Canyon Diablo</h3>
+            <p id="objectCaption">Click a glowing marker on the globe, or choose a state below.</p>
+            <div class="big-number"><span id="objectMass">30,000 kg</span><small>recovered mass</small></div>
+            <div id="objectDetails" class="detail-stack"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="panel data-deck poster-card">
+        <div class="deck-head">
+          <div>
+            <p class="kicker">DATA PANES</p>
+            <h2>Switch the terminal feed</h2>
+          </div>
+          <div class="tabs" role="tablist" aria-label="Data panes">
+            <button class="tab active" data-tab="state" role="tab">State archive</button>
+            <button class="tab" data-tab="truth" role="tab">Dataset fields</button>
+            <button class="tab" data-tab="leaders" role="tab">Heavy objects</button>
+          </div>
+        </div>
+
+        <div class="tab-panel active" data-panel="state" role="tabpanel">
+          <div class="state-topline">
+            <div>
+              <p class="kicker">U.S. STATE ARCHIVE</p>
+              <h3>Recovered by state</h3>
+            </div>
+            <select id="stateSelect" aria-label="Choose a U.S. state"></select>
+          </div>
+          <div id="stateReadout" class="state-readout"></div>
+          <div id="stateBoard" class="state-board"></div>
+        </div>
+
+        <div class="tab-panel" data-panel="truth" role="tabpanel">
+          <p class="kicker">DATASET REALITY CHECK</p>
+          <h3>What NASA actually gives us</h3>
+          <div class="truth-grid" id="truthGrid"></div>
+        </div>
+
+        <div class="tab-panel" data-panel="leaders" role="tabpanel">
+          <p class="kicker">HEAVIEST RECOVERED OBJECTS</p>
+          <h3>The biggest visitors in the archive</h3>
+          <div id="leaderboard" class="leaderboard"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="poster-card">
+      <nav class="footer-links" aria-label="Data source links">
+        <a href="https://catalog.data.gov/dataset/meteorite-landings" target="_blank" rel="noreferrer">Data.gov dataset ↗</a>
+        <a href="https://data.nasa.gov/docs/legacy/meteorite_landings/Meteorite_Landings.csv" target="_blank" rel="noreferrer">NASA CSV ↗</a>
+      </nav>
+      <p>Built for Summer Into AI. Data: NASA/Data.gov Meteorite Landings legacy CSV from The Meteoritical Society. State counts are derived by intersecting meteorite latitude/longitude with U.S. state boundaries. This dataset does not include impact speed.</p>
+    </footer>
+
+    <script src="./src/data.js?v=glow-bars-20260703"></script>
+    <script type="module" src="./src/app.js?v=mobile-canvas-fix-20260703"></script>
+  </body>
+</html>
