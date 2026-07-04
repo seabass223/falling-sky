@@ -28,11 +28,11 @@ function massBarHeight(g){
   return 8 + Math.pow(n, 1.14) * 142;
 }
 function colorForPoint(p){
-  if(p.s === selectedState) return new THREE.Color(0xffe36a);
-  if(p.f === 'Fell') return new THREE.Color(0xff7a2f);
-  if((p.m || 0) >= 1000000) return new THREE.Color(0xff1bbd);
-  if(/^Iron/i.test(p.c || '')) return new THREE.Color(0x18f7ff);
-  return new THREE.Color(0x7b1dff);
+  if(p.s === selectedState) return new THREE.Color(0xf5b900);
+  if(p.f === 'Fell') return new THREE.Color(0xff2f7d);
+  if((p.m || 0) >= 1000000) return new THREE.Color(0xf5b900);
+  if(/^Iron/i.test(p.c || '')) return new THREE.Color(0xff6a1a);
+  return new THREE.Color(0xe0115f);
 }
 function passesFilter(p){
   if(activeFilter === 'fell') return p.f === 'Fell';
@@ -83,10 +83,10 @@ class FallingSkyGlobe{
     this.animate();
   }
   addLights(){
-    this.scene.add(new THREE.AmbientLight(0x28105e, 1.15));
-    const key = new THREE.DirectionalLight(0x18f7ff, 2.3); key.position.set(-280, 340, 560); this.scene.add(key);
-    const hot = new THREE.PointLight(0xff1bbd, 3.2, 900); hot.position.set(260, 80, 420); this.scene.add(hot);
-    const orange = new THREE.PointLight(0xff7a2f, 2.1, 820); orange.position.set(-260, 220, 380); this.scene.add(orange);
+    this.scene.add(new THREE.AmbientLight(0x3a180f, 1.08));
+    const key = new THREE.DirectionalLight(0xf5b900, 2.15); key.position.set(-280, 340, 560); this.scene.add(key);
+    const hot = new THREE.PointLight(0xe0115f, 3.4, 900); hot.position.set(260, 80, 420); this.scene.add(hot);
+    const orange = new THREE.PointLight(0xff6a1a, 2.0, 820); orange.position.set(-260, 220, 380); this.scene.add(orange);
   }
   addEarth(){
     const geo = new THREE.SphereGeometry(RADIUS, 128, 64);
@@ -97,7 +97,7 @@ class FallingSkyGlobe{
       uniforms:{
         globeTexture:{value:texture},
         lonCenter:{value:THREE.MathUtils.degToRad(LON_CENTER)},
-        rimColor:{value:new THREE.Color(0x4c6268)}
+        rimColor:{value:new THREE.Color(0x5e3920)}
       },
       vertexShader:`varying vec3 vNormal; varying vec3 vPos; void main(){ vNormal=normalize(normalMatrix*normal); vPos=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
       fragmentShader:`uniform sampler2D globeTexture; uniform float lonCenter; uniform vec3 rimColor; varying vec3 vNormal; varying vec3 vPos; const float PI=3.141592653589793; void main(){ vec3 n=normalize(vPos); float lon=atan(n.x,n.z)+lonCenter; float u=fract((lon+PI)/(2.0*PI)); float v=0.5-asin(clamp(n.y,-1.0,1.0))/PI; vec3 landOcean=texture2D(globeTexture, vec2(u,v)).rgb; float softLight=max(dot(n,normalize(vec3(-0.35,0.55,0.75))),0.0); float rim=pow(1.0-abs(vNormal.z),2.05); vec3 col=landOcean*(0.82+softLight*.44)+rimColor*rim*.92; gl_FragColor=vec4(col,1.0); }`
@@ -105,18 +105,18 @@ class FallingSkyGlobe{
     const earth = new THREE.Mesh(geo, this.earthMat);
     earth.position.y = -115;
     this.scene.add(earth);
-    const grid = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.SphereGeometry(RADIUS+1.5, 32, 16)), new THREE.LineBasicMaterial({color:0x40555a, transparent:true, opacity:.075}));
+    const grid = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.SphereGeometry(RADIUS+1.5, 32, 16)), new THREE.LineBasicMaterial({color:0xf5b900, transparent:true, opacity:.07}));
     grid.position.copy(earth.position); this.scene.add(grid);
     this.earthOffsetY = earth.position.y;
   }
   addAtmosphere(){
-    const atmo = new THREE.Mesh(new THREE.SphereGeometry(RADIUS+8, 96, 48), new THREE.MeshBasicMaterial({ color:0x18f7ff, transparent:true, opacity:.105, side:THREE.BackSide }));
+    const atmo = new THREE.Mesh(new THREE.SphereGeometry(RADIUS+8, 96, 48), new THREE.MeshBasicMaterial({ color:0xe0115f, transparent:true, opacity:.11, side:THREE.BackSide }));
     atmo.position.y = this.earthOffsetY; this.scene.add(atmo);
   }
   addWorldOutlines(){
     fetch('./assets/world-land-outlines.json?v=continent-lines-20260703').then(r=>r.json()).then(world=>{
-      const mat = new THREE.LineBasicMaterial({ color:0xcad7d9, transparent:true, opacity:.22, depthTest:true, depthWrite:false });
-      const accent = new THREE.LineBasicMaterial({ color:0x18f7ff, transparent:true, opacity:.12, depthTest:true, depthWrite:false });
+      const mat = new THREE.LineBasicMaterial({ color:0xf1dfbf, transparent:true, opacity:.20, depthTest:true, depthWrite:false });
+      const accent = new THREE.LineBasicMaterial({ color:0xf5b900, transparent:true, opacity:.13, depthTest:true, depthWrite:false });
       this.worldOutlineGroup = new THREE.Group();
       world.rings.forEach((ring, i)=>{
         const pts = ring.map(([lon,lat]) => latLonToVec(lat, lon, RADIUS + 2.8).add(new THREE.Vector3(0,this.earthOffsetY,0)));
@@ -128,8 +128,8 @@ class FallingSkyGlobe{
   }
   addStateBorders(){
     fetch('./src/us-states.json').then(r=>r.json()).then(geojson=>{
-      const mat = new THREE.LineBasicMaterial({ color:0xffe36a, transparent:true, opacity:.74 });
-      const dim = new THREE.LineBasicMaterial({ color:0x18f7ff, transparent:true, opacity:.28 });
+      const mat = new THREE.LineBasicMaterial({ color:0xf5b900, transparent:true, opacity:.78 });
+      const dim = new THREE.LineBasicMaterial({ color:0xf1dfbf, transparent:true, opacity:.24 });
       this.stateLines = [];
       for(const f of geojson.features){
         const group = new THREE.Group(); group.userData.name = f.properties.name;

@@ -1,6 +1,6 @@
 # Falling Sky
 
-**Falling Sky** is an interactive NASA meteorite landing atlas built for Summer Into AI. It turns the NASA/Data.gov Meteorite Landings dataset into a stylized 3D globe with mass-scaled meteorite signals, state-derived archive panes, and a compact cyberpunk/HUD editorial interface.
+**Falling Sky** is an interactive NASA meteorite landing atlas built for Summer Into AI Week 3: **Data.Punk**. It turns the NASA/Data.gov Meteorite Landings dataset into a punk-zine NASA terminal with a 3D globe, mass-scaled meteorite signals, state-derived archive panes, and a deliberately gritty data-collage interface.
 
 Live site:
 
@@ -25,9 +25,10 @@ https://kylephoto.blob.core.windows.net/summer-into-ai/falling-sky/index.html
 
 ## Design direction
 
-The project uses a custom poster/HUD visual system:
+The project uses a custom Data.Punk poster/zine visual system:
 
-- supplied editorial hero image
+- supplied Summer Into AI Week 3 Data.Punk banner as the hero and OG image
+- aged-paper background, black tape panels, halftone/grit texture, magenta/yellow accents
 - compact “Archive Signal” metric strip
 - dark earth globe with subtle land/continent linework
 - mass-normalized glowing meteorite bars
@@ -54,6 +55,7 @@ src/app.js                 Three.js globe, filters, tabs, interactions
 src/data.js                Preprocessed meteorite dataset payload
 src/us-states.json         U.S. state boundaries for derived state mode
 assets/falling-sky-header.png
+assets/data-punk-hero.png
 assets/earth-dark.png
 assets/world-land-outlines.json
 ```
